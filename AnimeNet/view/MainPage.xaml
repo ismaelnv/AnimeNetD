@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AnimeNet.MainPage"
+             NavigationPage.HasNavigationBar="False"
+             Visual="Material">
+    
+    <Grid BackgroundColor="#333333">
+        <Image Source="fondoprincipal.jpg"
+               IsAnimationPlaying="True"
+               Aspect="AspectFill"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand" />
+        <StackLayout VerticalOptions="End">
+            <Label Text="Villa Anime"
+                   FontSize="40"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="White" />
+            <Button Text="Ingresar"
+                    x:Name="btnIngresar"
+                    Clicked="Button_Clicked"
+                    Margin="0,35,0,0"
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    BackgroundColor="#FDE080"
+                    FontSize="Large" />
+        </StackLayout>
+    </Grid>
+</ContentPage>
