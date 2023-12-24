@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using AnimeNet.Model;
 using AnimeNet.Service;
+using System.Xml.Linq;
 
 namespace AnimeNet.view
 {
@@ -37,17 +38,40 @@ namespace AnimeNet.view
                 string cont = await response.Content.ReadAsStringAsync();
                 var resultado = JsonConvert.DeserializeObject<List<Anime>>(cont);
 
-             // ListAnime.ItemsSource = resultado;
+                foreach ( var anime in resultado)
+                {
+                    foreach ( var imagePoster in anime.Images )
+                    {
+
+                        //anime.imagePoster = imagePoster.name;
+
+                        if ( imagePoster.imageCategory == 1)
+                        {
+                         
+                            anime.imagePoster = imagePoster.name;
+                        }
+                        
+                        if ( imagePoster.imageCategory == 2) 
+                        {
+
+                            anime.imageCover  = imagePoster.name;
+                        }
+                 
+                    }
+                }
 
                 CollectionAnimes.ItemsSource = resultado;
-           }
+            }
        }
 
         private async void Frame_Tapped(object sender, EventArgs e)
         {
+    
             var frame = (Frame)sender;
             var item = (Anime)frame.BindingContext; // Asegúrate de reemplazar 'TuModeloDeDatos' con el tipo de tu modelo.
             await Navigation.PushAsync(new DetalleDeAnime(item)); // Reemplaza detalleAnime con el nombre real de tu página de detalles
         }
+
+        
     }
 }

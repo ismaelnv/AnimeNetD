@@ -27,7 +27,7 @@
                                 <RowDefinition Height=".5*" />
                             </Grid.RowDefinitions>
                             <Image Grid.RowSpan="2"
-                                   Source="{Binding image}"
+                                   Source="{Binding imagePoster}"
                                    Aspect="AspectFit"
                                    HorizontalOptions="FillAndExpand"
                                    VerticalOptions="FillAndExpand" />
