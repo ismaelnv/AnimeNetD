@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AnimeNet.view.Busqueda"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="Black"
+             Visual="Material">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="Auto" />
+             </Grid.RowDefinitions>
+            <RelativeLayout BackgroundColor="Black">
+                <Button WidthRequest="35"
+                        HeightRequest="45"
+                        RelativeLayout.XConstraint="1"
+                        RelativeLayout.YConstraint="2"
+                        ImageSource="atras.png"
+                        BackgroundColor="Black"
+                        Clicked="Button_Clicked">
+                    
+                </Button>
+                <SearchBar x:Name="search"
+                           PlaceholderColor="White"
+                           TextColor="White"
+                           Placeholder="Buscar animes"
+                           TextTransform="Lowercase"
+                           Margin="30,0,0,0"
+                           RelativeLayout.XConstraint="50"
+                           RelativeLayout.YConstraint="3"
+                           TextChanged="OnTextChanged"
+                           WidthRequest="400" />
+            </RelativeLayout>
+            <CollectionView x:Name="searchs"
+                            Margin="20"
+                            HorizontalScrollBarVisibility="Never"
+                            Grid.Row="1">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Margin="5">
+                            <Frame Padding="5"
+                                   CornerRadius="10"
+                                   HasShadow="True"
+                                   HeightRequest="200"
+                                   BackgroundColor="#333333">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                          Tapped="Frame_Tapped" />
+                                </Frame.GestureRecognizers>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width=".3*" />
+                                        <ColumnDefinition Width=".7*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height=".8*" />
+                                        <RowDefinition Height=".5*" />
+                                    </Grid.RowDefinitions>
+                                    <Image Grid.RowSpan="2"
+                                           Source="{Binding imagePoster}"
+                                           Aspect="AspectFit"
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="FillAndExpand" />
+                                    <Label Text="{Binding name}"
+                                           Grid.Column="1"
+                                           FontAttributes="Bold"
+                                           FontSize="Large"
+                                           HorizontalOptions="Fill"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="White"
+                                           Margin="15, 20, 0, 25" />
+                                    <Label Text="Sub | Dob"
+                                           Grid.Row="1"
+                                           Grid.Column="1"
+                                           HorizontalOptions="Fill"
+                                           VerticalTextAlignment="Center"
+                                           LineBreakMode="WordWrap"
+                                           TextColor="White"
+                                           Margin="15, 20, 200, 0" />
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

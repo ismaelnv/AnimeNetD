@@ -58,7 +58,10 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
+    <PackageReference Include="Xamarin.CommunityToolkit">
+      <Version>2.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2622" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="Xamarin.Forms.Visual.Material">
       <Version>5.0.0.2622</Version>
@@ -98,6 +101,29 @@
       <Project>{76327BD4-3809-423F-A33C-99C49FD34CE4}</Project>
       <Name>AnimeNet</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\atras.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\lupa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\accion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\aventura.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\comedia.png" />
+    <AndroidResource Include="Resources\drawable\comedia.png" />
+    <AndroidResource Include="Resources\drawable\deporte.png" />
+    <AndroidResource Include="Resources\drawable\fantasia.png" />
+    <AndroidResource Include="Resources\drawable\romance.png" />
+    <AndroidResource Include="Resources\drawable\sobrenatural.png" />
+    <AndroidResource Include="Resources\drawable\mecha.png" />
+    <AndroidResource Include="Resources\drawable\anime.png" />
+    <AndroidResource Include="Resources\drawable\error.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

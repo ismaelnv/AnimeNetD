@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AnimeNet.Model
 {
@@ -16,5 +17,7 @@ namespace AnimeNet.Model
         public bool state { get; set; }
         public virtual ICollection<Chapter> Chapters { get; } = new List<Chapter>();
         public virtual List<Image> Images { get; set; } = new List<Image>();
+        public virtual List<Genre> Genres { get; set; } = new List<Genre>();
+        public StringBuilder LblGenres { get; set; } = new StringBuilder();
     }
 }

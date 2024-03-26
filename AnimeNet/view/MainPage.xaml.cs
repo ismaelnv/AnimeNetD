@@ -1,4 +1,5 @@
-﻿using AnimeNet.view;
+﻿using AnimeNet.Model;
+using AnimeNet.view;
 using System;
 using Xamarin.Forms;
 
@@ -14,6 +15,7 @@ namespace AnimeNet
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
+         
             await Navigation.PushAsync(new CatalogoDeAnimes());
         }
     }

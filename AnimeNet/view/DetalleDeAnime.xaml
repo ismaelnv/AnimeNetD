@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="AnimeNet.view.DetalleDeAnime"
              Visual="Material"
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor="MidnightBlue">
+             BackgroundColor="Black">
     
     <Grid>
         <!-- Definir dos filas, una arriba y otra abajo -->
@@ -16,28 +17,61 @@
         <StackLayout Grid.Row="0"
                      VerticalOptions="CenterAndExpand"
                      HorizontalOptions="CenterAndExpand"
-                     Spacing="10">
-            <Button x:Name="btnRegreso"
-                    Clicked="btnRegreso_Clicked"
-                    Text="&#x2190;" 
-                    FontSize="40"
-                    />
-            <!-- Puedes agregar aquí la descripción del anime -->
-            <Image Grid.RowSpan="2"
-                   Source="{Binding imageCover}"
-                   Aspect="AspectFit"
-                   HorizontalOptions="FillAndExpand"
-                   VerticalOptions="FillAndExpand"
-                   IsAnimationPlaying="True"
-                   Margin="5" />
-            <Label Text="{Binding name}"
+                     Spacing="12">
+            <RelativeLayout>
+                <Frame xct:ShadowEffect.Color="Black"
+                       xct:ShadowEffect.OffsetY="10"
+                       xct:ShadowEffect.Radius="80"
+                       xct:ShadowEffect.Opacity="0.9"
+                       CornerRadius="10"
+                       HasShadow="True"
+                       Padding="0">
+                    <Image Grid.RowSpan="2"
+                           Source="{Binding imageCover}"
+                           Aspect="AspectFit"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand"
+                           IsAnimationPlaying="True"></Image>
+                </Frame>
+                <Button x:Name="btnRegreso"
+                        Clicked="btnRegreso_Clicked"
+                        ImageSource="atras.png"
+                        RelativeLayout.XConstraint="0"
+                        RelativeLayout.YConstraint="0"
+                        RelativeLayout.WidthConstraint="50"
+                        RelativeLayout.HeightConstraint="50"
+                        BackgroundColor="Transparent"
+                        BorderWidth="0"
+                        BorderColor="Transparent"
+                        
+                        />
+                <!-- Puedes agregar aquí la descripción del anime -->
+                <Label Text="{Binding name}"
+                       TextColor="White"
+                       FontSize="Title"
+                       RelativeLayout.XConstraint="20"
+                       RelativeLayout.YConstraint="200"
+                       RelativeLayout.WidthConstraint="300"
+                       RelativeLayout.HeightConstraint="50"
+                       FontAttributes="Bold" />
+                <Label Text="{Binding LblGenres}"
+                       TextColor="White"
+                       FontSize="Subtitle"
+                       RelativeLayout.XConstraint="20"
+                       RelativeLayout.YConstraint="230"
+                       RelativeLayout.WidthConstraint="300"
+                       RelativeLayout.HeightConstraint="50" />
+            </RelativeLayout>
+            <!-- Agrega más controles según sea necesario para la descripción -->
+            <Label Text="DESCRIPCION"
                    TextColor="White"
-                   FontSize="Title" />
+                   FontAttributes="Bold"
+                   FontSize="17"
+                   Margin="8,0,0,0" />
             <Label Text="{Binding description}"
                    TextColor="White"
-                   FontSize="Subtitle"
-                   HorizontalOptions="CenterAndExpand"/>
-            <!-- Agrega más controles según sea necesario para la descripción -->
+                   FontSize="13"
+                   Margin="8,0,8,0" />
         </StackLayout>
         <!-- Contenido de la sección inferior -->
         <StackLayout Grid.Row="1">
@@ -49,7 +83,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout>
-                            <Frame>
+                            <Frame BackgroundColor="#333333">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width=".3*" />
@@ -66,10 +100,12 @@
                                            VerticalOptions="FillAndExpand" />
                                     <Label Text="{Binding episode}"
                                            Grid.Column="1"
+                                           TextColor="White"
                                            FontAttributes="Bold"
                                            FontSize="Large"
                                            VerticalOptions="Center" />
                                     <Label Text="{Binding title}"
+                                           TextColor="White"
                                            Grid.Row="1"
                                            Grid.Column="1" />
                                 </Grid>

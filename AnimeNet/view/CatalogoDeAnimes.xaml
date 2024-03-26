@@ -3,47 +3,103 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AnimeNet.view.CatalogoDeAnimes"
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor ="MidnightBlue"
+             BackgroundColor="Black"
              Visual="Material">
-    
-    <CollectionView x:Name="CollectionAnimes" Margin="20">
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <StackLayout Margin="5">
-                    <Frame Padding="5"
-                           CornerRadius="5"
-                           HasShadow="True">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1"
-                                                  Tapped="Frame_Tapped" />
-                        </Frame.GestureRecognizers>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width=".3*" />
-                                <ColumnDefinition Width=".7*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height=".8*" />
-                                <RowDefinition Height=".5*" />
-                            </Grid.RowDefinitions>
-                            <Image Grid.RowSpan="2"
-                                   Source="{Binding imagePoster}"
-                                   Aspect="AspectFit"
-                                   HorizontalOptions="FillAndExpand"
-                                   VerticalOptions="FillAndExpand" />
-                            <Label Text="{Binding name}"
-                                   Grid.Column="1"
-                                   FontAttributes="Bold"
-                                   FontSize="Large"
-                                   VerticalOptions="Center" />
-                            <Label Text="{Binding description}"
-                                   Grid.Row="1"
-                                   Grid.Column="1" />
-                        </Grid>
-                    </Frame>
-                </StackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
-    
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- Definición de la primera fila con una altura de 100 unidades -->
+            <RowDefinition Height="95" />
+            <!-- Definición de la segunda fila con una altura automática -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <RelativeLayout BackgroundColor="Black"
+                     Grid.Row="0">
+            <Label Text="Villa Anime"
+                   TextColor="White"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   RelativeLayout.XConstraint="20"
+                   RelativeLayout.YConstraint="15">
+                
+            </Label>
+            <Button x:Name="btnBusqueda"
+                    ImageSource="lupa.png"
+                    BackgroundColor="Black"
+                    CornerRadius="15"
+                    WidthRequest="35"
+                    HeightRequest="45"
+                    RelativeLayout.XConstraint="442"
+                    RelativeLayout.YConstraint="3"
+                    Clicked="btnBusqueda_Clicked">
+                    
+            </Button>
+            <Picker x:Name="picker"
+                    Title="GENEROS"
+                    TitleColor="White"
+                    WidthRequest="150"
+                    HeightRequest="43"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    RelativeLayout.XConstraint="8"
+                    RelativeLayout.YConstraint="50"
+                    BackgroundColor="Black"
+                    SelectedIndexChanged="Picker_SelectedIndexChanged">
+            </Picker>
+        </RelativeLayout>
+        <CollectionView x:Name="CollectionAnimes"
+                        Margin="20"
+                        HorizontalScrollBarVisibility="Never"
+                        Grid.Row="1"
+                        >
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="5">
+                        <Frame Padding="5"
+                               CornerRadius="10"
+                               HasShadow="True"
+                               HeightRequest="200"
+                               BackgroundColor="#333333"
+                               >
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                      Tapped="Frame_Tapped" />
+                            </Frame.GestureRecognizers>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=".3*" />
+                                    <ColumnDefinition Width=".7*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height=".5*" />
+                                </Grid.RowDefinitions>
+                                <Image Grid.RowSpan="2"
+                                       Source="{Binding imagePoster}"
+                                       Aspect="AspectFit"
+                                       HorizontalOptions="FillAndExpand"
+                                       VerticalOptions="FillAndExpand" />
+                                <Label Text="{Binding name}"
+                                       Grid.Column="1"
+                                       FontAttributes="Bold"
+                                       FontSize="Large"
+                                       HorizontalOptions="Fill"
+                                       VerticalTextAlignment="Center"
+                                       TextColor="White"
+                                       Margin="15, 20, 0, 25" 
+                                       />
+                                <Label Text="Sub | Dob"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       HorizontalOptions="Fill"
+                                       VerticalTextAlignment="Center"
+                                       LineBreakMode="WordWrap"
+                                       TextColor="White"
+                                       Margin="15, 20, 200, 0" />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>

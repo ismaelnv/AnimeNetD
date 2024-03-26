@@ -4,7 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -31,7 +30,7 @@ namespace AnimeNet.view
         {
             int idAnime = _anime.Id; 
             var request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"http://192.168.1.6:5092/api/animes/{idAnime}/capitulos");
+            request.RequestUri = new Uri($"http://192.168.1.8:5092/api/animes/{idAnime}/capitulos");
             request.Method = HttpMethod.Get;
             request.Headers.Add("Accept", "application/json");
             var client = new HttpClient();
@@ -55,7 +54,7 @@ namespace AnimeNet.view
                     }
                     
                 }
-
+               
                 CollectionChapters.ItemsSource = resultado.Chapters;
 
                // CollectionAnimes.ItemsSource = resultado;
@@ -64,6 +63,7 @@ namespace AnimeNet.view
 
         private async void btnRegreso_Clicked(object sender, EventArgs e)
         {
+
             await Navigation.PushAsync(new CatalogoDeAnimes());
         }
 
