@@ -1,16 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using AnimeNet.Model;
-using System.ComponentModel;
-using Xamarin.CommunityToolkit.Converters;
-using System.Threading.Tasks;
-using System.Linq;
-
+using AnimeNet.ErrorHandler;
+using AnimeNet.Service;
 
 namespace AnimeNet.view
 {
@@ -18,13 +13,14 @@ namespace AnimeNet.view
     public partial class CatalogoDeAnimes : ContentPage
     {
         public Color CustomBlackColor { get; set; }
+        private readonly ApiService _apiService;
 
         public CatalogoDeAnimes()
         {
- 
+            _apiService = new ApiService();
             InitializeComponent();
             CargarAnimes();
-           // loadGenres();
+            LoadGenres();
         }
 
        private async void CargarAnimes()
@@ -33,77 +29,33 @@ namespace AnimeNet.view
             try
             {
 
-                var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://192.168.1.8:5092/api/animes");
-                request.Method = HttpMethod.Get;
-                request.Headers.Add("Accept", "application/json");
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
+                string response = await _apiService.GetDataFromApi("http://192.168.1.8:5092/api/animes");
 
-                if (response.StatusCode == HttpStatusCode.OK)
+                var resultado = JsonConvert.DeserializeObject<List<Anime>>(response);
+
+                //Si la lista de animes no está vacía
+                if (resultado != null)
                 {
-                   
-                   string cont = await response.Content.ReadAsStringAsync();
-                   var resultado = JsonConvert.DeserializeObject<List<Anime>>(cont);
-
-                   //Si la lista de animes no está vacía
-                   if(resultado != null)
-                   {
-                        getImages(resultado);
-                        getGenres(resultado);
-                        CollectionAnimes.ItemsSource = resultado;
-                   }
+                    getImages(resultado);
+                    getGenres(resultado);
+                    CollectionAnimes.ItemsSource = resultado;
                 }
                 else
                 {
 
-                    MessageError("Reiniciar la aplicacion porfavor");
+                    StackLayout vistaError = ApiErrorHandler.errorBack("Error al cargar datos");
+                    Content = vistaError;
+                    Console.WriteLine("error al deserealizar anime response");
                 }
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
 
-               Console.WriteLine(ex.Message);
-               MessageError("Problemas al iniciar la aplicacion");
-            }
+                StackLayout vistaError = ApiErrorHandler.errorBack("Error al cargar datos");
+                Content = vistaError;
+                Console.WriteLine(ex.Message);
+            }  
        }
-
-        public void MessageError(string mensaje) 
-        {
-
-            Xamarin.Forms.Image imageError = new Xamarin.Forms.Image
-            {
-
-                Source = "error.png",
-                WidthRequest = 300, // Ancho deseado para la imagen
-                HeightRequest = 300, // Alto deseado para la imagen
-                Margin = new Thickness(0,100, 0, 0)
-
-            };
-
-            Label mensajeError = new Label
-            {
-
-                Text = mensaje,
-                TextColor = Color.White,
-                FontAttributes = FontAttributes.Bold,
-                HorizontalOptions = LayoutOptions.CenterAndExpand, // Centrar el StackLayout horizontalmente
-                Margin = new Thickness(0, 150, 0, 0) // Márgenes para ajustar la posición del Label
-            };
-        
-            StackLayout error = new StackLayout
-            {
-
-               // Orientation = StackOrientation.Horizontal, // Orientación horizontal para el StackLayout
-                HorizontalOptions = LayoutOptions.CenterAndExpand, // Centrar el StackLayout horizontalmente
-                VerticalOptions = LayoutOptions.CenterAndExpand // Centrar el StackLayout verticalmente
-            };
-
-            error.Children.Add(imageError);
-            error.Children.Add(mensajeError);
-            
-            Content = error;
-        }
 
         public void getImages(List<Anime> resultado) 
         {
@@ -156,35 +108,35 @@ namespace AnimeNet.view
             }
         }
 
-        private async void loadGenres()
+        private async void LoadGenres()
         {
 
-            //probando codigo 
-
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("http://192.168.1.8:5092/api/genres");
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Accept", "application/json");
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-
-            if (response.StatusCode == HttpStatusCode.OK)
+            try
             {
 
-                string cont = await response.Content.ReadAsStringAsync();
-                var resultado = JsonConvert.DeserializeObject<List<Genre>>(cont);
+                string response = await _apiService.GetDataFromApi("http://192.168.1.8:5092/api/genres");
+
+                var resultado = JsonConvert.DeserializeObject<List<Genre>>(response);
 
                 List<string> generos = new List<string>();
 
-                foreach (Genre genre in resultado) 
+                foreach (Genre genre in resultado)
                 {
 
-                    generos.Add(genre.name); 
+                    generos.Add(genre.name);
                 }
 
                 picker.ItemsSource = generos;
+
             }
-           
+            catch (Exception ex)
+            {
+
+                StackLayout vistaError = ApiErrorHandler.errorBack("Error al cargar datos");
+                Content = vistaError;
+                Console.WriteLine(ex.Message);
+            }
+          
         }
 
         private async void Picker_SelectedIndexChanged(object sender, EventArgs e)

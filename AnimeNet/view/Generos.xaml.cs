@@ -1,11 +1,9 @@
-﻿using AnimeNet.Model;
+﻿using AnimeNet.ErrorHandler;
+using AnimeNet.Model;
+using AnimeNet.Service;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.ConstrainedExecution;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,41 +15,44 @@ namespace AnimeNet.view
 
         private readonly String _opcionSeleccionada;
         private readonly CatalogoDeAnimes _catalogoDeAnimes;
+        private readonly ApiService _apiService;
 
-        public Generos( String opcionSeleccionada)
+
+        public Generos(String opcionSeleccionada)
         {
+
             InitializeComponent();
+            _apiService = new ApiService();
             _catalogoDeAnimes = new CatalogoDeAnimes();
             _opcionSeleccionada = opcionSeleccionada;
-            getAnimesByGenre();
+            GetAnimesByGenre();
             GetGenero();
         }
     
-        public async void getAnimesByGenre()
+        public async void GetAnimesByGenre()
         {
-            string genero = _opcionSeleccionada;
 
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"http://192.168.1.8:5092/api/genres/animes/{genero}");
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Accept", "application/json");
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-
-            if (response.StatusCode == HttpStatusCode.OK)
+            try
             {
-             
-                string cont = await response.Content.ReadAsStringAsync();
-                var resultado = JsonConvert.DeserializeObject<List<Anime>>(cont);
+
+                string genero = _opcionSeleccionada;
+                String response = await _apiService.GetDataFromApi($"http://192.168.1.8:5092/api/genres/animes/{genero}");
+                var resultado = JsonConvert.DeserializeObject<List<Anime>>(response);
 
                 _catalogoDeAnimes.getImages(resultado);
                 _catalogoDeAnimes.getGenres(resultado);
                 CollectionAnimes.ItemsSource = resultado;
-            }
 
+            }catch (Exception ex)
+            {
+
+                StackLayout vistaError = ApiErrorHandler.errorBack("Error al cargar datos");
+                Content = vistaError;
+                Console.WriteLine(ex.Message);
+            }
         }
 
-        public  void GetGenero()
+        public void GetGenero()
         {
 
            string generos = _opcionSeleccionada;

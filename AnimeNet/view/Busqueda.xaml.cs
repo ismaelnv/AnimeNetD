@@ -1,9 +1,9 @@
-﻿using AnimeNet.Model;
+﻿using AnimeNet.ErrorHandler;
+using AnimeNet.Model;
+using AnimeNet.Service;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,10 +14,12 @@ namespace AnimeNet.view
 	{
 
         private readonly CatalogoDeAnimes _catalogoDeAnimes;
+        private readonly ApiService _apiService;
 		public Busqueda ()
 		{
 
             _catalogoDeAnimes = new CatalogoDeAnimes();
+            _apiService = new ApiService();
             InitializeComponent ();
 		}
 
@@ -30,36 +32,47 @@ namespace AnimeNet.view
         private void search_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+            
         }
 
-        private async void OnTextChanged(object sender, EventArgs e)
+        private async void OnTextChanged(object sender, TextChangedEventArgs e)
         {
 
-            string animeName = search.Text; 
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"http://192.168.1.8:5092/api/animes/name/{animeName}");
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Accept", "application/json");
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-
-            //List<Anime> results = new List<Anime> {resultado};
-            if (response.StatusCode == HttpStatusCode.OK)
+            try
             {
+                string animeName = e.NewTextValue;
 
-                string cont = await response.Content.ReadAsStringAsync();
-                var resultado = JsonConvert.DeserializeObject<List<Anime>>(cont);
+                // Verifica si el texto del SearchBar está vacío o nulo
+                if (string.IsNullOrWhiteSpace(animeName))
+                {
+                    // Si está vacío, borra la lista de resultados
+                    searchs.ItemsSource = null;
+                }
+                else
+                {
+                    // Si hay texto, realiza la llamada a la API y procesa los resultados
+                    string response = await _apiService.GetDataFromApi($"http://192.168.1.8:5092/api/animes/name/{animeName}");
 
-                _catalogoDeAnimes.getImages(resultado);
-                _catalogoDeAnimes.getGenres(resultado);
-               
-                 searchs.ItemsSource = resultado;
+                    var resultado = JsonConvert.DeserializeObject<List<Anime>>(response);
+
+                    if(resultado != null)
+                    {
+
+                        _catalogoDeAnimes.getImages(resultado);
+                        _catalogoDeAnimes.getGenres(resultado);
+
+                        searchs.ItemsSource = resultado;
+                    }
+                }
             }
-            else 
+            catch (Exception ex)
             {
 
-                searchs.ItemsSource = null;
-            }   
+                StackLayout vistaError = ApiErrorHandler.errorBack("Error al cargar datos");
+                Content = vistaError;
+                Console.WriteLine(ex.Message);
+            }
+
         }
 
         private async void Frame_Tapped(object sender, EventArgs e)

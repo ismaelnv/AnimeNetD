@@ -2,10 +2,10 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Net;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using AnimeNet.ErrorHandler;
+using AnimeNet.Service;
 
 namespace AnimeNet.view
 {
@@ -14,50 +14,54 @@ namespace AnimeNet.view
     {
         public ObservableCollection<string> Items { get; set; }
         private Anime _anime;
+        private readonly ApiService _apiService;
 
         public DetalleDeAnime(Anime anime)
         {
-            InitializeComponent();
 
+            InitializeComponent();
+            _apiService = new ApiService();
             _anime = anime; // Guarda el item en una variable de la clase.
-            getChapters();
+            GetChapters();
 
             // Asegúrate de establecer el contexto de enlace a este item si vas a utilizar enlaces en tu XAML.
             BindingContext = _anime;
         }
 
-        public async void getChapters()
+        public async void GetChapters()
         {
-            int idAnime = _anime.Id; 
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri($"http://192.168.1.8:5092/api/animes/{idAnime}/capitulos");
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Accept", "application/json");
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
 
-            if (response.StatusCode == HttpStatusCode.OK)
+            try
             {
-                string cont = await response.Content.ReadAsStringAsync();
-                var resultado = JsonConvert.DeserializeObject<Anime>(cont);
 
-                foreach (Chapter chapter in resultado.Chapters) 
+                int idAnime = _anime.Id;
+                string response = await _apiService.GetDataFromApi($"http://192.168.1.8:5092/api/animes/{idAnime}/capitulos");
+                var resultado = JsonConvert.DeserializeObject<Anime>(response);
+
+                foreach (Chapter chapter in resultado.Chapters)
                 {
 
-                    foreach( var image in chapter.Images) 
+                    foreach (var image in chapter.Images)
                     {
+
                         if (image.imageType == 2)
                         {
 
                             chapter.imageCover = image.name;
                         }
                     }
-                    
+
                 }
-               
+
                 CollectionChapters.ItemsSource = resultado.Chapters;
 
-               // CollectionAnimes.ItemsSource = resultado;
+            }
+            catch (Exception ex)
+            {
+
+                StackLayout vistaError = ApiErrorHandler.errorBack("Error al cargar datos");
+                Content = vistaError;
+                Console.WriteLine(ex.Message);
             }
         }
 
