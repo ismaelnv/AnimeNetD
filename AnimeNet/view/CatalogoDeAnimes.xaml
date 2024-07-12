@@ -13,7 +13,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <RelativeLayout BackgroundColor="Black"
-                     Grid.Row="0">
+                     Grid.Row="0"
+                     >
             <Label Text="Villa Anime"
                    TextColor="White"
                    FontSize="14"
@@ -28,8 +29,7 @@
                     CornerRadius="15"
                     WidthRequest="35"
                     HeightRequest="45"
-                    RelativeLayout.XConstraint="442"
-                    RelativeLayout.YConstraint="3"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-45}"
                     Clicked="btnBusqueda_Clicked">
                     
             </Button>
@@ -47,7 +47,7 @@
             </Picker>
         </RelativeLayout>
         <CollectionView x:Name="CollectionAnimes"
-                        Margin="20"
+                        Margin="10"
                         HorizontalScrollBarVisibility="Never"
                         Grid.Row="1"
                         >
@@ -57,8 +57,8 @@
                         <Frame Padding="5"
                                CornerRadius="10"
                                HasShadow="True"
-                               HeightRequest="200"
-                               BackgroundColor="#333333"
+                               HeightRequest="150"
+                               BackgroundColor="Black"
                                >
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer NumberOfTapsRequired="1"
@@ -75,26 +75,23 @@
                                 </Grid.RowDefinitions>
                                 <Image Grid.RowSpan="2"
                                        Source="{Binding imagePoster}"
-                                       Aspect="AspectFit"
                                        HorizontalOptions="FillAndExpand"
                                        VerticalOptions="FillAndExpand" />
                                 <Label Text="{Binding name}"
                                        Grid.Column="1"
                                        FontAttributes="Bold"
                                        FontSize="Large"
-                                       HorizontalOptions="Fill"
                                        VerticalTextAlignment="Center"
                                        TextColor="White"
-                                       Margin="15, 20, 0, 25" 
+                                       Margin="20" 
                                        />
                                 <Label Text="Sub | Dob"
                                        Grid.Row="1"
                                        Grid.Column="1"
-                                       HorizontalOptions="Fill"
                                        VerticalTextAlignment="Center"
                                        LineBreakMode="WordWrap"
                                        TextColor="White"
-                                       Margin="15, 20, 200, 0" />
+                                       Margin="20,0,0,10" />
                             </Grid>
                         </Frame>
                     </StackLayout>

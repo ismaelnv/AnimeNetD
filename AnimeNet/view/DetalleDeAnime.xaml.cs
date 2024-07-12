@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using AnimeNet.ErrorHandler;
 using AnimeNet.Service;
+using System.Threading.Tasks;
 
 namespace AnimeNet.view
 {
@@ -35,7 +36,7 @@ namespace AnimeNet.view
             {
 
                 int idAnime = _anime.Id;
-                string response = await _apiService.GetDataFromApi($"http://192.168.1.8:5092/api/animes/{idAnime}/capitulos");
+                string response = await _apiService.GetDataFromApi($"http://192.168.1.4:5092/api/animes/{idAnime}/capitulos");
                 var resultado = JsonConvert.DeserializeObject<Anime>(response);
 
                 foreach (Chapter chapter in resultado.Chapters)
@@ -65,9 +66,18 @@ namespace AnimeNet.view
             }
         }
 
-        private async void btnRegreso_Clicked(object sender, EventArgs e)
+        private async void Frame_Tapped(object sender, EventArgs e)
         {
 
+            var frame = (Frame)sender;
+            frame.BackgroundColor = Color.FromHex("#1A1A1A");
+            await Task.Delay(200); // 200 ms, ajusta según tus necesidades
+            frame.BackgroundColor = Color.Black;
+        }
+
+        private async void btnRegreso_Clicked(object sender, EventArgs e)
+        {
+            
             await Navigation.PushAsync(new CatalogoDeAnimes());
         }
 

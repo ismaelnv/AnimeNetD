@@ -14,8 +14,7 @@
             <RelativeLayout BackgroundColor="Black">
                 <Button WidthRequest="35"
                         HeightRequest="45"
-                        RelativeLayout.XConstraint="1"
-                        RelativeLayout.YConstraint="2"
+                        Margin="10"
                         ImageSource="atras.png"
                         BackgroundColor="Black"
                         Clicked="Button_Clicked">
@@ -26,14 +25,12 @@
                            TextColor="White"
                            Placeholder="Buscar animes"
                            TextTransform="Lowercase"
-                           Margin="30,0,0,0"
-                           RelativeLayout.XConstraint="50"
-                           RelativeLayout.YConstraint="3"
+                           Margin="45,10,5,0"
                            TextChanged="OnTextChanged"
-                           WidthRequest="400" />
+                           />
             </RelativeLayout>
             <CollectionView x:Name="searchs"
-                            Margin="20"
+                            Margin="10"
                             HorizontalScrollBarVisibility="Never"
                             Grid.Row="1">
                 <CollectionView.ItemTemplate>
@@ -42,8 +39,8 @@
                             <Frame Padding="5"
                                    CornerRadius="10"
                                    HasShadow="True"
-                                   HeightRequest="200"
-                                   BackgroundColor="#333333">
+                                   HeightRequest="150"
+                                   BackgroundColor="Black">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="1"
                                                           Tapped="Frame_Tapped" />
@@ -66,10 +63,9 @@
                                            Grid.Column="1"
                                            FontAttributes="Bold"
                                            FontSize="Large"
-                                           HorizontalOptions="Fill"
-                                           VerticalTextAlignment="Center"
+                                           Margin="30"
                                            TextColor="White"
-                                           Margin="15, 20, 0, 25" />
+                                            />
                                     <Label Text="Sub | Dob"
                                            Grid.Row="1"
                                            Grid.Column="1"
@@ -77,7 +73,7 @@
                                            VerticalTextAlignment="Center"
                                            LineBreakMode="WordWrap"
                                            TextColor="White"
-                                           Margin="15, 20, 200, 0" />
+                                           Margin="20,0, 0, 10" />
                                 </Grid>
                             </Frame>
                         </StackLayout>

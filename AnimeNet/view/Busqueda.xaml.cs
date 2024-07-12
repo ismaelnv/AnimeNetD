@@ -4,6 +4,7 @@ using AnimeNet.Service;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -51,7 +52,7 @@ namespace AnimeNet.view
                 else
                 {
                     // Si hay texto, realiza la llamada a la API y procesa los resultados
-                    string response = await _apiService.GetDataFromApi($"http://192.168.1.8:5092/api/animes/name/{animeName}");
+                    string response = await _apiService.GetDataFromApi($"http://192.168.1.4:5092/api/animes/name/{animeName}");
 
                     var resultado = JsonConvert.DeserializeObject<List<Anime>>(response);
 
@@ -79,6 +80,9 @@ namespace AnimeNet.view
         {
 
             var frame = (Frame)sender;
+            frame.BackgroundColor = Color.FromHex("#1A1A1A");
+            await Task.Delay(200); // 200 ms, ajusta según tus necesidades
+            frame.BackgroundColor = Color.Black;
             var item = (Anime)frame.BindingContext; // Asegúrate de reemplazar 'TuModeloDeDatos' con el tipo de tu modelo.
             await Navigation.PushAsync(new DetalleDeAnime(item)); // Reemplaza detalleAnime con el nombre real de tu página de detalles
         }

@@ -17,15 +17,6 @@
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
                    TextColor="White" />
-            <Button Text="Ingresar"
-                    x:Name="btnIngresar"
-                    Clicked="Button_Clicked"
-                    Margin="0,35,0,0"
-                    TextColor="Black"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Center"
-                    BackgroundColor="#FDE080"
-                    FontSize="Large" />
         </StackLayout>
     </Grid>
 </ContentPage>
