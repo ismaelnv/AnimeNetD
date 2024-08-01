@@ -12,10 +12,14 @@
 * Xamarin.Forms.Visual.Material 5.0.0.2622
 
 ## Comando para instalar las versiones que tiene el proyecto
-```  nuget list Xamarin.Forms  ```
+```  
+nuget list Xamarin.Forms
+```
 
 ## Instalación
-```  git clone https://github.com/ismaelnv/AnimeNetD.git  ``` 
+``` 
+git clone https://github.com/ismaelnv/AnimeNetD.git
+``` 
 
 ## Backend de la Aplicación
 [Backend](https://github.com/ismaelnv/Anime.net).
